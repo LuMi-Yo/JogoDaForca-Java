@@ -1,7 +1,9 @@
 
 	/*
-	 * IFPB - TSI - POO - PROJETO1
-	 *  
+	 * IFPB - BES - POO - PROJETO1 - 3° Período
+	 * 
+	 * Alunos - Thatyane Iasmyn Andrade Alves - Luís Miguel Carvalho da Rocha 
+	 * 
 	 * Aplicação console para testar a classe JogoDaForca
 	 * 
 	 */

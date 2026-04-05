@@ -24,7 +24,7 @@ class JogoDaForca {
 		    "perdeu cabeça"          
 		};
 	
-	//Métodos
+	//Métodos -> tirando aquele que foi o gemini que fez, o resto eu fiz logo tudo, mas tu pode apagar e refazer os teus 
 	
 	public JogoDaForca() {
 		InputStream stream = this.getClass().getResourceAsStream("/dados/palavras.txt");
@@ -78,8 +78,9 @@ class JogoDaForca {
 	
 	}
 	
-	//public ArrayList<Integer> getOcorrencias(String letra){};
-	public ArrayList<Integer> getOcorrencias(String letra) throws Exception {
+	//essa aqui foi totalmente gemini que fez só pra eu testar se tava rodando o código
+	
+	/*public ArrayList<Integer> getOcorrencias(String letra) throws Exception {
 		// Lança exceção se a string for vazia, nula ou tiver mais de 1 caractere
 		if (letra == null || letra.length() != 1) {
 			throw new Exception("A letra deve conter exatamente 1 caractere.");
@@ -111,7 +112,7 @@ class JogoDaForca {
 		}
 		
 		return posicoes;
-	}
+	}*/
 	
 	public boolean terminou(){
 		return !this.getResultado().equals("Em Andamento");
@@ -139,9 +140,4 @@ class JogoDaForca {
 		}
 	}
 	
-	/*public static void main(String[] args) {
-		JogoDaForca engine = new JogoDaForca();
-		//System.out.print(engine.iniciar());
-		
-	}*/
 }
