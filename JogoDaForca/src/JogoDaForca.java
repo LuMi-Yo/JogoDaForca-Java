@@ -15,7 +15,7 @@ class JogoDaForca {
 	private int acertos = 0;
 	private int codigoPenalidade = 0;
 	private String[] nomesPenalidade = {
-			"sem penalidades",       //indice 0 ...
+			"sem penalidades",       
 		    "perdeu primeira perna", 
 		    "perdeu segunda perna",  
 		    "perdeu primeiro braço", 
@@ -24,7 +24,7 @@ class JogoDaForca {
 		    "perdeu cabeça"          
 		};
 	
-	//Métodos -> tirando aquele que foi o gemini que fez, o resto eu fiz logo tudo, mas tu pode apagar e refazer os teus 
+	//Métodos 
 	
 	public JogoDaForca() {
 		InputStream stream = this.getClass().getResourceAsStream("/dados/palavras.txt");
@@ -46,7 +46,6 @@ class JogoDaForca {
 			JOptionPane.showConfirmDialog(null, "Arquivo de palavras inexistente!");
 			System.exit(0);
 		}
-		
 		if (!this.palavraSorteada.isEmpty()) {
 			this.historicoResultados.add(this.palavraSorteada + '-' + this.getResultado());
 		}
@@ -55,7 +54,7 @@ class JogoDaForca {
 		Random gerador = new Random();
 		int indice = gerador.nextInt(this.listadepalavras.size());
 		
-		String[] partes = this.listadepalavras.get(indice).split(",");
+		String[] partes = this.listadepalavras.get(indice).split(";");
 		this.palavraSorteada = partes[0].toUpperCase();
 		this.dicaPalavra = partes[1].toUpperCase();
 		
@@ -78,9 +77,8 @@ class JogoDaForca {
 	
 	}
 	
-	//essa aqui foi totalmente gemini que fez só pra eu testar se tava rodando o código
 	
-	/*public ArrayList<Integer> getOcorrencias(String letra) throws Exception {
+	public ArrayList<Integer> getOcorrencias(String letra) throws Exception {
 		// Lança exceção se a string for vazia, nula ou tiver mais de 1 caractere
 		if (letra == null || letra.length() != 1) {
 			throw new Exception("A letra deve conter exatamente 1 caractere.");
@@ -88,7 +86,7 @@ class JogoDaForca {
 		
 		ArrayList<Integer> posicoes = new ArrayList<>();
 		
-		// Converte a letra para maiúscula para comparar de igual para igual
+		// Converte a letra para maiúscula e transforma em char
 		char letraBuscada = letra.toUpperCase().charAt(0);
 		boolean encontrouLetra = false;
 		
@@ -98,7 +96,6 @@ class JogoDaForca {
 				encontrouLetra = true;
 				posicoes.add(i + 1); // Salva a posição (1 a N)
 				
-				// Se for a primeira vez que encontra essa letra nesta posição, revela e conta o acerto
 				if (this.palavraOculta[i] == '*') {
 					this.palavraOculta[i] = letraBuscada;
 					this.acertos++;
@@ -112,7 +109,7 @@ class JogoDaForca {
 		}
 		
 		return posicoes;
-	}*/
+	}
 	
 	public boolean terminou(){
 		return !this.getResultado().equals("Em Andamento");
