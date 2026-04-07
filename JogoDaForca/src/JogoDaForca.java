@@ -113,7 +113,6 @@ class JogoDaForca {
 		if (!encontrouLetra && this.codigoPenalidade < 6) {
 			this.codigoPenalidade++;
 		}
-		
 		return posicoes;
 	}
 	
