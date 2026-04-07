@@ -1,3 +1,4 @@
+import java.awt.HeadlessException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,45 +25,55 @@ class JogoDaForca {
 		    "perdeu cabeça"          
 		};
 	
-	//Métodos 
+	
 	
 	public JogoDaForca() {
-		InputStream stream = this.getClass().getResourceAsStream("/dados/palavras.txt");
-		if (stream == null) {
-		JOptionPane.showMessageDialog(null, "Arquivo de palavras inexistente!");
-			System.exit(0);
+		try {
+			InputStream stream = this.getClass().getResourceAsStream("/dados/palavras.txt");
+			if (stream == null) {
+			JOptionPane.showMessageDialog(null, "Arquivo de palavras inexistente!");
+				System.exit(0);
+			}
+			Scanner arquivo = new Scanner(stream);
+			String linha;
+			while (arquivo.hasNext()) {
+				linha = arquivo.nextLine();
+				this.listadepalavras.add(linha);
+			}
+			arquivo.close();
+		} catch (HeadlessException e) {
+			e.printStackTrace();
 		}
-		Scanner arquivo = new Scanner(stream);
-		String linha;
-		while (arquivo.hasNext()) {
-			linha = arquivo.nextLine();
-			this.listadepalavras.add(linha);
-		}
-		arquivo.close();
 	}
 	
 	public void iniciar() {
-		if(this.listadepalavras.isEmpty()) {
-			JOptionPane.showConfirmDialog(null, "Arquivo de palavras inexistente!");
-			System.exit(0);
+		try {
+			if(this.listadepalavras.isEmpty()) {
+				JOptionPane.showConfirmDialog(null, "Arquivo de palavras inexistente!");
+				System.exit(0);
+			}
+			
+			if (!this.palavraSorteada.isEmpty()) {
+				this.historicoResultados.add(this.palavraSorteada + " - " + this.getResultado() + System.lineSeparator());
+			}
+			
+			
+			Random gerador = new Random();
+			int indice = gerador.nextInt(this.listadepalavras.size());
+			
+			String[] partes = this.listadepalavras.get(indice).split(";");
+			this.palavraSorteada = partes[0].toUpperCase();
+			this.dicaPalavra = partes[1].toUpperCase();
+				
+			this.palavraOculta = new char[this.palavraSorteada.length()];
+			Arrays.fill(palavraOculta, '*');
+			this.acertos = 0;
+			this.codigoPenalidade = 0;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		if (!this.palavraSorteada.isEmpty()) {
-			this.historicoResultados.add(this.palavraSorteada + '-' + this.getResultado());
-		}
-		
-		
-		Random gerador = new Random();
-		int indice = gerador.nextInt(this.listadepalavras.size());
-		
-		String[] partes = this.listadepalavras.get(indice).split(";");
-		this.palavraSorteada = partes[0].toUpperCase();
-		this.dicaPalavra = partes[1].toUpperCase();
-		
-		this.palavraOculta = new char[this.palavraSorteada.length()];
-		Arrays.fill(palavraOculta, '*');
-		this.acertos = 0;
-		this.codigoPenalidade = 0;
-		}
+		}	
+
 	
 	public String getDica() {
 		return this.dicaPalavra;
@@ -77,24 +88,20 @@ class JogoDaForca {
 	
 	}
 	
-	
 	public ArrayList<Integer> getOcorrencias(String letra) throws Exception {
-		// Lança exceção se a string for vazia, nula ou tiver mais de 1 caractere
 		if (letra == null || letra.length() != 1) {
-			throw new Exception("A letra deve conter exatamente 1 caractere.");
+			throw new Exception("Digite apenas 1 letra!");
 		}
 		
 		ArrayList<Integer> posicoes = new ArrayList<>();
 		
-		// Converte a letra para maiúscula e transforma em char
 		char letraBuscada = letra.toUpperCase().charAt(0);
 		boolean encontrouLetra = false;
 		
-		// Percorre a palavra sorteada procurando a letra
 		for (int i = 0; i < this.palavraSorteada.length(); i++) {
 			if (this.palavraSorteada.charAt(i) == letraBuscada) {
 				encontrouLetra = true;
-				posicoes.add(i + 1); // Salva a posição (1 a N)
+				posicoes.add(i + 1); 
 				
 				if (this.palavraOculta[i] == '*') {
 					this.palavraOculta[i] = letraBuscada;
@@ -103,7 +110,6 @@ class JogoDaForca {
 			}
 		}
 		
-		// Contabiliza a penalidade na ausência da letra
 		if (!encontrouLetra && this.codigoPenalidade < 6) {
 			this.codigoPenalidade++;
 		}
